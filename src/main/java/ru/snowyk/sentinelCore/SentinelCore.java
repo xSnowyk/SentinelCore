@@ -5,12 +5,20 @@ import ru.snowyk.sentinelCore.database.DatabaseConnection;
 import ru.snowyk.sentinelCore.database.DatabaseCredentials;
 import ru.snowyk.sentinelCore.database.DatabaseInitializer;
 import ru.snowyk.sentinelCore.impl.MySQLDatabase;
+import ru.snowyk.sentinelCore.repostiory.PunishmentRepository;
+import ru.snowyk.sentinelCore.repostiory.ReportRepository;
+import ru.snowyk.sentinelCore.repostiory.impl.MySQLPunishmentRepository;
+import ru.snowyk.sentinelCore.repostiory.impl.MySQLReportRepository;
+import ru.snowyk.sentinelCore.service.PunishmentService;
+import ru.snowyk.sentinelCore.service.ReportService;
 
 import java.sql.SQLException;
 
 public final class SentinelCore extends JavaPlugin {
 
     private DatabaseConnection database;
+    private PunishmentService punishmentService;
+    private ReportService reportService;
 
     @Override
     public void onEnable() {
@@ -41,6 +49,12 @@ public final class SentinelCore extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        PunishmentRepository punishmentRepo = new MySQLPunishmentRepository(database);
+        ReportRepository reportRepo = new MySQLReportRepository(database);
+
+        this.punishmentService = new PunishmentService(this, punishmentRepo);
+        this.reportService = new ReportService(this, reportRepo);
     }
 
     @Override
@@ -53,5 +67,13 @@ public final class SentinelCore extends JavaPlugin {
 
     public DatabaseConnection getDatabase() {
         return database;
+    }
+
+    public PunishmentService getPunishmentService() {
+        return punishmentService;
+    }
+
+    public ReportService getReportService() {
+        return reportService;
     }
 }
