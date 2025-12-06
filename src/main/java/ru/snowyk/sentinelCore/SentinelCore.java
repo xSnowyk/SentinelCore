@@ -1,10 +1,13 @@
 package ru.snowyk.sentinelCore;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.snowyk.sentinelCore.command.BanCommand;
+import ru.snowyk.sentinelCore.command.ReportCommand;
 import ru.snowyk.sentinelCore.database.DatabaseConnection;
 import ru.snowyk.sentinelCore.database.DatabaseCredentials;
 import ru.snowyk.sentinelCore.database.DatabaseInitializer;
-import ru.snowyk.sentinelCore.impl.MySQLDatabase;
+import ru.snowyk.sentinelCore.database.impl.MySQLDatabase;
+import ru.snowyk.sentinelCore.listener.PunishmentListener;
 import ru.snowyk.sentinelCore.repostiory.PunishmentRepository;
 import ru.snowyk.sentinelCore.repostiory.ReportRepository;
 import ru.snowyk.sentinelCore.repostiory.impl.MySQLPunishmentRepository;
@@ -55,6 +58,11 @@ public final class SentinelCore extends JavaPlugin {
 
         this.punishmentService = new PunishmentService(this, punishmentRepo);
         this.reportService = new ReportService(this, reportRepo);
+
+        getCommand("ban").setExecutor(new BanCommand(punishmentService));
+        getCommand("report").setExecutor(new ReportCommand(reportService));
+
+        getServer().getPluginManager().registerEvents(new PunishmentListener(punishmentService), this);
     }
 
     @Override

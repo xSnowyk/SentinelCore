@@ -1,4 +1,4 @@
-package ru.snowyk.sentinelCore.impl;
+package ru.snowyk.sentinelCore.database.impl;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

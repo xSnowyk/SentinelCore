@@ -2,3 +2,9 @@ name: SentinelCore
 version: '1.0-SNAPSHOT'
 main: ru.snowyk.sentinelCore.SentinelCore
 api-version: '1.21'
+commands:
+  ban:
+    description: Забанить игрока
+    permission: sentinel.ban
+  report:
+    description: Пожаловаться на игрока или посмотреть жалобы
